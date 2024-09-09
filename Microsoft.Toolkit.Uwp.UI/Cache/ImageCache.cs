@@ -7,8 +7,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -36,15 +39,15 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
         /// </summary>
-        public DispatcherQueue DispatcherQueue { get; set; }
+        public CoreDispatcher DispatcherQueue { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCache"/> class.
         /// </summary>
         /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
-        public ImageCache(DispatcherQueue dispatcherQueue = null)
+        public ImageCache(CoreDispatcher dispatcherQueue = null)
         {
-            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? CoreApplication.GetCurrentView().Dispatcher;
             _extendedPropertyNames.Add(DateAccessedProperty);
         }
 
@@ -61,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new FileNotFoundException();
             }
 
-            return await DispatcherQueue.EnqueueAsync(async () =>
+            return await DispatcherQueue.AwaitableRunAsync(async () =>
             {
                 BitmapImage image = new BitmapImage();
 

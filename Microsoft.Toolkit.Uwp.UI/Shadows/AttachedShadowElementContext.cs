@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private void Initialize(bool forceIfNotLoaded = false)
         {
-            if (IsInitialized || !_isConnected || (!Element.IsLoaded && !forceIfNotLoaded))
+            if (IsInitialized || !_isConnected)
             {
                 return;
             }

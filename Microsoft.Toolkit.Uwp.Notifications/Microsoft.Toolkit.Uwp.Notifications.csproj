@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0.19041;net461;netcoreapp3.1;net5.0;net5.0-windows10.0.17763.0;native</TargetFrameworks>
+    <TargetFrameworks>uap10.0.19041;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
   </PropertyGroup>
@@ -11,7 +11,7 @@
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.17763.0'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.16299.0'">
     <!-- Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available -->
     <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
   </PropertyGroup>
@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <!-- The .NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.17763.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.16299.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
@@ -67,6 +67,10 @@
   <!-- Native (C++) doesn't need 'System.ValueTuple' (plus it's incompatible with this package) -->
   <ItemGroup Condition="'$(TargetFramework)' != 'native'">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.6.143" />
   </ItemGroup>
 
   <!-- Set the nuspec properties. Dependent on version which isn't updated till after 'GetBuildVersion'. Condition ensures we only set once since this runs multiple times for each target. -->

@@ -140,6 +140,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(LazyLoadingThresholdProperty, value); }
         }
 
+        public CornerRadius CornerRadius
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(default(CornerRadius)));
+
         private static void EnableLazyLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ImageExBase control)

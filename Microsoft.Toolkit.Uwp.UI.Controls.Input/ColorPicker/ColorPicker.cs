@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private HsvColor?       savedHsvColor              = null;
         private Color?          savedHsvColorRgbEquivalent = null;
         private Color?          updatedRgbColor            = null;
-        private DispatcherQueueTimer dispatcherQueueTimer            = null;
+        private DispatcherTimer dispatcherQueueTimer            = null;
 
         private ListBox           ColorPanelSelector;
         private ColorSpectrum     ColorSpectrumControl;
@@ -1149,7 +1149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void StartDispatcherQueueTimer()
         {
-            this.dispatcherQueueTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            this.dispatcherQueueTimer = new DispatcherTimer();
             this.dispatcherQueueTimer.Interval = new TimeSpan(0, 0, 0, 0, ColorUpdateInterval);
             this.dispatcherQueueTimer.Tick += DispatcherQueueTimer_Tick;
             this.dispatcherQueueTimer.Start();

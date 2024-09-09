@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -22,9 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InAppNotification : ContentControl
     {
         private ContentPresenter _contentProvider;
-        private DispatcherQueueTimer _dismissTimer;
+        private DispatcherTimer _dismissTimer;
         private Button _dismissButton;
-        private DispatcherQueue _dispatcherQueue;
         private InAppNotificationDismissKind _lastDismissKind;
         private List<NotificationOptions> _stackedNotificationOptions;
         private VisualStateGroup _visualStateGroup;
@@ -36,8 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(InAppNotification);
 
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            _dismissTimer = _dispatcherQueue.CreateTimer();
+            _dismissTimer = new DispatcherTimer();
             _dismissTimer.Tick += DismissTimer_Tick;
 
             _stackedNotificationOptions = new List<NotificationOptions>();

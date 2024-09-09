@@ -5,7 +5,8 @@
                     xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
                     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
-                    xmlns:winuiprimitives="using:Microsoft.UI.Xaml.Controls.Primitives">
+                    xmlns:winuiprimitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+                    xmlns:w1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
         <SolidColorBrush.Color>
@@ -216,7 +217,7 @@
                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                           BorderThickness="1"
                                           Content="RGB"
-                                          CornerRadius="2,0,0,2"
+                                          w1809:CornerRadius="2,0,0,2"
                                           IsThreeState="False" />
                             <ToggleButton x:Name="HsvToggleButton"
                                           Grid.Column="1"
@@ -225,7 +226,7 @@
                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                           BorderThickness="1"
                                           Content="HSV"
-                                          CornerRadius="0,2,2,0"
+                                          w1809:CornerRadius="0,2,2,0"
                                           IsThreeState="False" />
                             <Grid x:Name="HexInputGrid"
                                   Grid.Column="3">

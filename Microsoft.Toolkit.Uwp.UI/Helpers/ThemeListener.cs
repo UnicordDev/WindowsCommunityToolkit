@@ -5,8 +5,11 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
@@ -48,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <summary>
         /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
         /// </summary>
-        public DispatcherQueue DispatcherQueue { get; set; }
+        public CoreDispatcher DispatcherQueue { get; set; }
 
         /// <summary>
         /// An event that fires if the Theme changes.
@@ -62,12 +65,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// Initializes a new instance of the <see cref="ThemeListener"/> class.
         /// </summary>
         /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
-        public ThemeListener(DispatcherQueue dispatcherQueue = null)
+        public ThemeListener(CoreDispatcher dispatcherQueue = null)
         {
             CurrentTheme = Application.Current.RequestedTheme;
             IsHighContrast = _accessible.HighContrast;
 
-            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+            DispatcherQueue = dispatcherQueue ?? CoreApplication.GetCurrentView().Dispatcher;
 
             _accessible.HighContrastChanged += Accessible_HighContrastChanged;
             _settings.ColorValuesChanged += Settings_ColorValuesChanged;
@@ -98,10 +101,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// Dispatches an update for the public properties and the firing of <see cref="ThemeChanged"/> on <see cref="DispatcherQueue"/>.
         /// </summary>
         /// <returns>A <see cref="Task"/> that indicates when the dispatching has completed.</returns>
-        internal Task OnThemePropertyChangedAsync()
+        internal async Task OnThemePropertyChangedAsync()
         {
             // Getting called off thread, so we need to dispatch to request value.
-            return DispatcherQueue.EnqueueAsync(
+            await DispatcherQueue.RunAsync(
+                CoreDispatcherPriority.Normal,
                 () =>
                 {
                     // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
@@ -114,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
 
                         UpdateProperties();
                     }
-                }, DispatcherQueuePriority.Normal);
+                });
         }
 
         private void CoreWindow_Activated(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.WindowActivatedEventArgs args)
