@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>uap10.0.19041;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
-    <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
+   <IsPackable>false</IsPackable>
+    <!-- <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile> -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
